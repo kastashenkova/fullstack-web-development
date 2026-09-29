@@ -1,7 +1,4 @@
 const mongoose = require('mongoose')
-const dns = require('dns')
-
-dns.setServers(['8.8.8.8', '8.8.4.4'])
 
 if (process.argv.length < 3) {
   console.log('give password as argument')

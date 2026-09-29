@@ -3,11 +3,8 @@ const express = require('express')
 const Person = require('./models/person')
 
 const morgan = require('morgan')
-const dns = require('dns')
 
 const app = express()
-
-dns.setServers(['8.8.8.8', '8.8.4.4'])
 
 app.use(express.static('dist'))
 app.use(express.json())
