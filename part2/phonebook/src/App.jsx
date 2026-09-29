@@ -41,13 +41,13 @@ const App = () => {
             return
         }
 
-        if (persons.some(person => person.name === newName)) {
+        if (persons.some(person => person.name.toLowerCase() === newName.toLowerCase())) {
             const confirmation = window.confirm(
                 `${newName} is already added to phonebook, replace the old number with a new one?`
             )
 
             if (confirmation) {
-                const personToUpdate = persons.find(person => person.name === newName)
+                const personToUpdate = persons.find(person => person.name.toLowerCase() === newName.toLowerCase())
                 const changedPerson = { ...personToUpdate, number: newNumber }
 
                 personService
@@ -67,18 +67,28 @@ const App = () => {
                             setSuccessMessage(null)
                         }, 5000)
                     })
-                    .catch(() => {
-                        setSuccessMessage(null)
+                    .catch(error => {
+                        if (error.response?.status === 404) {
+                            setSuccessMessage(null)
 
-                        setErrorMessage(
-                            `Information of ${personToUpdate.name} has already been removed from server`
-                        )
+                            setErrorMessage(
+                                `Information of ${personToUpdate.name} has already been removed from server`
+                            )
+
+                            setTimeout(() => {
+                                setErrorMessage(null)
+                            }, 5000)
+
+                            setPersons(persons.filter(person => person.id !== personToUpdate.id))
+                            return
+                        }
+
+                        setSuccessMessage(null)
+                        setErrorMessage(error.response.data.error)
 
                         setTimeout(() => {
                             setErrorMessage(null)
                         }, 5000)
-
-                        setPersons(persons.filter(person => person.id !== personToUpdate.id))
                     })
             }
 
@@ -104,6 +114,14 @@ const App = () => {
                     setSuccessMessage(null)
                 }, 5000)
             })
+            .catch(error => {
+                setSuccessMessage(null)
+                setErrorMessage(error.response.data.error)
+
+                setTimeout(() => {
+                    setErrorMessage(null)
+                }, 5000)
+            })
     }
 
     const deletePerson = (id) => {
@@ -127,8 +145,6 @@ const App = () => {
                     }, 5000)
                 })
         }
-
-        return
     }
 
     const handleFilter = (event) => {
