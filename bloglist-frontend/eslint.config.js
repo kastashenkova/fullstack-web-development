@@ -43,5 +43,13 @@ export default [
       'no-duplicate-imports': 'error',
       'no-inner-declarations': 'error',
     }
+  },
+  {
+    files: ['**/*.test.{js,jsx}'],
+    languageOptions: {
+      globals: {
+        ...globals.vitest
+      }
+    }
   }
 ]

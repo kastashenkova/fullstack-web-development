@@ -16,14 +16,14 @@ const Blog = ({ blog, onLike, onDelete, user }) => {
 
   return (
     <div style={blogStyle}>
-      <div style={hideWhenVisible}>
+      <div style={hideWhenVisible} className="hidden">
         {blog.title} {blog.author}
         <button onClick={() => setVisible(true)}>
           view
         </button>
       </div>
 
-      <div style={showWhenVisible}>
+      <div style={showWhenVisible} className="visible">
         {blog.title} {blog.author}
         <button onClick={() => setVisible(false)}>
           hide
@@ -35,7 +35,7 @@ const Blog = ({ blog, onLike, onDelete, user }) => {
           <button onClick={() => onLike(blog)}>like</button>
         </div>
         <div>{blog.user?.name}</div>
-        {blog.user?.username === user.username && (
+        {blog.user?.username === user?.username && (
           <button onClick={() => onDelete(blog)}>remove</button>
         )}
       </div>
