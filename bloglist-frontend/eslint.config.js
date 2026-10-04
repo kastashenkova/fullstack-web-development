@@ -37,7 +37,11 @@ export default [
       'no-trailing-spaces': 'error',
       'object-curly-spacing': ['error', 'always'],
       'arrow-spacing': ['error', { before: true, after: true }],
-      'no-console': 'off'
+      'no-console': 'warn',
+      'prefer-const': 'error',
+      'no-var': 'error',
+      'no-duplicate-imports': 'error',
+      'no-inner-declarations': 'error',
     }
   }
 ]
