@@ -6,7 +6,7 @@ const BlogList = ({ blogs }) => {
             <h2>blogs</h2>
             <ul>
                 {blogs.map(blog => (
-                    <li key={blog.id}>
+                    <li className="blog" key={blog.id}>
                         <Link to={`/blogs/${blog.id}`}>{blog.title} {blog.author}</Link>
                     </li>
                 ))}
