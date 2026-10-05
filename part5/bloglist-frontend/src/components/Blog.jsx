@@ -15,7 +15,7 @@ const Blog = ({ blog, onLike, onDelete, user }) => {
   const showWhenVisible = { display: visible ? '' : 'none' }
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} className="blog">
       <div style={hideWhenVisible} className="hidden">
         {blog.title} {blog.author}
         <button onClick={() => setVisible(true)}>

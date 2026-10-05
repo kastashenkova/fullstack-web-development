@@ -164,7 +164,7 @@ const App = () => {
   }
 
   const compareByLikes = (blog1, blog2) => {
-    return blog1.likes - blog2.likes
+    return blog2.likes - blog1.likes
   }
 
   const deleteBlog = async blog => {
@@ -202,7 +202,8 @@ const App = () => {
         <h2>Log in to application</h2>
 
         <Notification
-          message={errorMessage}
+            message={errorMessage}
+            className="error"
         />
 
         {loginForm()}
