@@ -1,42 +1,55 @@
 import { useState } from 'react'
 
-const Blog = ({ blog, onLike, onDelete, user }) => {
-  const [visible, setVisible] = useState(false)
+const Blog = ({ blog, onLike, deleteBlog, user }) => {
+  // const [visible, setVisible] = useState(false)
 
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
+  if(!blog) {
+    return null
   }
 
-  const hideWhenVisible = { display: visible ? 'none' : '' }
-  const showWhenVisible = { display: visible ? '' : 'none' }
+  // const blogStyle = {
+  //   paddingTop: 10,
+  //   paddingLeft: 2,
+  //   border: 'solid',
+  //   borderWidth: 1,
+  //   marginBottom: 5
+  // }
+
+  const handleDelete = async () => {
+    await deleteBlog(blog)
+  }
+
+  // const hideWhenVisible = { display: visible ? 'none' : '' }
+  // const showWhenVisible = { display: visible ? '' : 'none' }
 
   return (
-    <div style={blogStyle} className="blog">
-      <div style={hideWhenVisible} className="hidden">
-        {blog.title} {blog.author}
-        <button onClick={() => setVisible(true)}>
-          view
-        </button>
-      </div>
+    <div>
+      {/*<div style={hideWhenVisible} className="hidden">*/}
+      {/*  {blog.title} {blog.author}*/}
+      {/*  <button onClick={() => setVisible(true)}>*/}
+      {/*    view*/}
+      {/*  </button>*/}
+      {/*</div>*/}
 
-      <div style={showWhenVisible} className="visible">
-        {blog.title} {blog.author}
-        <button onClick={() => setVisible(false)}>
-          hide
-        </button>
+      <div>
+        <h2>{blog.title} {blog.author}</h2>
 
-        <div>{blog.url}</div>
+        <a href={blog.url} target="_blank" rel="noreferrer">
+          {blog.url}
+        </a>
         <div>
           likes {blog.likes}
-          <button onClick={() => onLike(blog)}>like</button>
+          {user && (
+              <button onClick={() => onLike(blog)}>
+                like
+              </button>
+          )}
         </div>
         <div>{blog.user?.name}</div>
         {blog.user?.username === user?.username && (
-          <button onClick={() => onDelete(blog)}>remove</button>
+            <button onClick={handleDelete}>
+              remove
+            </button>
         )}
       </div>
     </div>
