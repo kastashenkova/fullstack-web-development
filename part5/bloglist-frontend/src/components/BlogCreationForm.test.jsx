@@ -8,9 +8,9 @@ test('<BlogCreationForm /> calls the event handler it received as props with the
   const user = userEvent.setup()
 
   render(
-      <MemoryRouter>
-        <BlogCreationForm createBlog={createBlog} />
-      </MemoryRouter>
+    <MemoryRouter>
+      <BlogCreationForm createBlog={createBlog} />
+    </MemoryRouter>
   )
 
   const title = screen.getByPlaceholderText('write blog title here')

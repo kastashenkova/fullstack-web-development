@@ -24,6 +24,10 @@ describe('Blog app', () => {
     await page.goto('/')
   })
 
+  test.afterEach(async ({ request }) => {
+    await request.post('/api/testing/reset')
+  })
+
   test('Login form is shown', async ({ page }) => {
     await page.getByRole('link', { name: 'login' }).click()
     const locator = page.getByText('Log in to application')
@@ -33,18 +37,14 @@ describe('Blog app', () => {
   describe('Login', () => {
     test('succeeds with correct credentials', async ({ page }) => {
       await loginWith(page, 'astkatrya', 'admin123')
-      const successDiv = page.locator('.success')
-      await expect(successDiv).toHaveCSS('color', 'rgb(0, 128, 0)')
       await expect(page.getByText('Kateryna logged in')).toBeVisible()
     })
 
     test('fails with wrong credentials', async ({ page }) => {
       await loginWith(page, 'astkatrya', 'wrong')
 
-      const errorDiv = page.locator('.error')
-      await expect(errorDiv).toContainText('wrong username or password')
-      await expect(errorDiv).toHaveCSS('border-style', 'solid')
-      await expect(errorDiv).toHaveCSS('color', 'rgb(255, 0, 0)')
+      const alert = page.getByRole('alert')
+      await expect(alert).toContainText('wrong username or password')
 
       await expect(page.getByText('Kateryna logged in')).not.toBeVisible()
     })
@@ -72,7 +72,7 @@ describe('Blog app', () => {
         await page.getByRole('link', { name: 'TestTitle1 TestAuthor1' }).click()
         await page.getByRole('button', { name: 'like' }).click()
 
-        await expect(page.getByText('likes 1')).toBeVisible()
+        await expect(page.getByText('1 likes')).toBeVisible()
       })
 
       test('one of those can be deleted', async ({ page }) => {

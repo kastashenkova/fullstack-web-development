@@ -1,58 +1,61 @@
-import { useState } from 'react'
+import { Card, CardContent, Typography, Button, Box } from '@mui/material'
 
 const Blog = ({ blog, onLike, deleteBlog, user }) => {
-  // const [visible, setVisible] = useState(false)
 
   if(!blog) {
     return null
   }
 
-  // const blogStyle = {
-  //   paddingTop: 10,
-  //   paddingLeft: 2,
-  //   border: 'solid',
-  //   borderWidth: 1,
-  //   marginBottom: 5
-  // }
-
   const handleDelete = async () => {
     await deleteBlog(blog)
   }
 
-  // const hideWhenVisible = { display: visible ? 'none' : '' }
-  // const showWhenVisible = { display: visible ? '' : 'none' }
-
   return (
-    <div>
-      {/*<div style={hideWhenVisible} className="hidden">*/}
-      {/*  {blog.title} {blog.author}*/}
-      {/*  <button onClick={() => setVisible(true)}>*/}
-      {/*    view*/}
-      {/*  </button>*/}
-      {/*</div>*/}
+    <Card sx={{ mt: 2 }}>
+      <CardContent>
+        <Typography variant="h5" component="h2" gutterBottom>
+          {blog.title}
+        </Typography>
 
-      <div>
-        <h2>{blog.title} {blog.author}</h2>
+        <Typography variant="subtitle1" sx={{ color: 'grey.600' }} gutterBottom>
+            by {blog.author}
+        </Typography>
 
-        <a href={blog.url} target="_blank" rel="noreferrer">
-          {blog.url}
-        </a>
-        <div>
-          likes {blog.likes}
+        <Typography variant="body2" sx={{ color: 'blue' }} gutterBottom>
+          <a href={blog.url} target="_blank" rel="noreferrer">
+            {blog.url}
+          </a>
+        </Typography>
+
+        <Typography variant="body2" sx={{ color: 'grey.600' }} gutterBottom>
+            Added by {blog.user?.name}
+        </Typography>
+
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mt: 1 }}>
+          <Typography>{blog.likes} likes</Typography>
+
           {user && (
-              <button onClick={() => onLike(blog)}>
-                like
-              </button>
+            <Button sx={{ fontWeight: 'bold' }}
+              variant="outlined"
+              size="small"
+              onClick={() => onLike(blog)}>
+                  like
+            </Button>
           )}
-        </div>
-        <div>{blog.user?.name}</div>
-        {blog.user?.username === user?.username && (
-            <button onClick={handleDelete}>
-              remove
-            </button>
-        )}
-      </div>
-    </div>
+
+          {user && blog.user?.username === user.username && (
+            <Button sx={{ fontWeight: 'bold' }}
+              variant="outlined"
+              color="error"
+              size="small"
+              onClick={handleDelete}
+            >
+                  remove
+            </Button>
+          )}
+        </Box>
+      </CardContent>
+    </Card>
   )
 }
 

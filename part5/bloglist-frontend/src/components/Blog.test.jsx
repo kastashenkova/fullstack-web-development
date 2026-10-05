@@ -17,13 +17,14 @@ test('shows blog information and no buttons to an unauthorized user', async () =
 
   render(<Blog blog={blog} user={null} />)
 
-  expect(screen.getByText('TestTitle TestAuthor')).toBeVisible()
+  expect(screen.getByText('TestTitle')).toBeVisible()
+  expect(screen.getByText('by TestAuthor')).toBeVisible()
   expect(screen.getByText('https://test.com')).toBeVisible()
-  expect(screen.getByText('likes 1')).toBeVisible()
-  expect(screen.getByText('tester')).toBeVisible()
+  expect(screen.getByText('1 likes')).toBeVisible()
+  expect(screen.getByText('Added by tester')).toBeVisible()
 
-  expect(screen.queryByText('like')).not.toBeInTheDocument()
-  expect(screen.queryByText('remove')).not.toBeInTheDocument()
+  expect(screen.queryByRole('button', { name: 'like' })).not.toBeInTheDocument()
+  expect(screen.queryByRole('button', { name: 'remove' })).not.toBeInTheDocument()
 })
 
 test('shows like button and no remove button to a non-creator', async () => {
@@ -81,11 +82,11 @@ test('clicking the like button twice calls event handler twice', async () => {
   const mockHandler = vi.fn()
 
   render(
-      <Blog
-          blog={blog}
-          user={loggedUser}
-          onLike={mockHandler}
-      />
+    <Blog
+      blog={blog}
+      user={loggedUser}
+      onLike={mockHandler}
+    />
   )
 
   const user = userEvent.setup()
